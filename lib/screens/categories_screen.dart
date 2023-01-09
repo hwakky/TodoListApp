@@ -5,8 +5,6 @@ import 'package:play_flutter/services/category_screen.dart';
 import '../models/category.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key});
-
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
@@ -17,6 +15,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   var _category = Category();
   var _categoryService = CategoryService();
+
+  List<Category> _categoryList = List<Category>();
+
+  // getAllCartegories() async {
+  //   _categoryList = List<Category>();
+  //   var categories = await _categoryService.readCategories();
+  //   categories.forEach((category) {});
+  // }
 
   _showFormDialog(BuildContext context) {
     return showDialog(
@@ -32,10 +38,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ),
               TextButton(
                 style: TextButton.styleFrom(foregroundColor: Colors.blue),
-                onPressed: () {
+                onPressed: () async {
                   _category.name = _categoryNameController.text;
                   _category.desciption = _categoryDescriptionController.text;
-                  _categoryService.saveCategory(_category);
+
+                  var result = await _categoryService.saveCategory(_category);
+                  print(result);
                 },
                 child: Text('Save'),
               ),
